@@ -1,0 +1,3 @@
+using CompilerExplorer
+
+CompilerExplorer.main()

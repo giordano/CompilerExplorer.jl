@@ -1,0 +1,12 @@
+name = "CompilerExplorer"
+uuid = "56c0c71f-52f9-4b6b-a724-44757648ae32"
+version = "0.1.0"
+
+[deps]
+InteractiveUtils = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
