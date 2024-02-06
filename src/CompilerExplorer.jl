@@ -1,10 +1,12 @@
 module CompilerExplorer
 
-const doc = """Julia wrapper.
+using InteractiveUtils
+
+_doc(name) = """Julia wrapper for Compiler Explorer.
 
 Usage:
-  julia_wrapper.jl <input_code> <output_path> [--format=<fmt>] [--debuginfo=<info>] [--optimize=<opt>] [--verbose]
-  julia_wrapper.jl --help
+  $(name) <input_code> <output_path> [--format=<fmt>] [--debuginfo=<info>] [--optimize=<opt>] [--verbose]
+  $(name) --help
 
 Options:
   -h --help                Show this screen.
@@ -13,8 +15,6 @@ Options:
   --optimize={true*|false} Controls whether "llvm" or "typed" output should be optimized or not [default: true]
   --verbose                Prints some process info
 """
-
-using InteractiveUtils
 
 struct Arguments
     format::String
@@ -26,6 +26,8 @@ struct Arguments
 end
 
 function parse_arguments(ARGS)
+    print_docs() = println(_doc(PROGRAM_FILE))
+
     if first(ARGS) == "--"
         popfirst!(ARGS)
     end
@@ -61,7 +63,7 @@ function parse_arguments(ARGS)
     end
 
     if show_help
-        println(doc)
+        print_docs()
         exit(Int(arg_parser_error)) # exit(1) if failed to parse
     end
 
@@ -71,7 +73,7 @@ function parse_arguments(ARGS)
     end
 
     if arg_parser_error
-        println(doc)
+        print_docs()
         exit(1)
     end
 
