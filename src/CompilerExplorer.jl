@@ -25,7 +25,7 @@ struct Arguments
     output_path::String
 end
 
-function parse_arguments(ARGS)
+function _parse_arguments(ARGS)
     print_docs() = println(_doc(PROGRAM_FILE))
 
     if first(ARGS) == "--"
@@ -162,7 +162,7 @@ function _main(m::Module, args::Arguments; verbose_io::IO=stdout)
 end
 
 function main()
-    _main(Module(:Godbolt), parse_arguments(ARGS))
+    _main(Module(:Godbolt), _parse_arguments(ARGS))
     exit(0)
 end
 
