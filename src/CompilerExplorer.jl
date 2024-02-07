@@ -163,7 +163,6 @@ end
 
 function main()
     _main(Module(:Godbolt), _parse_arguments(ARGS))
-    exit(0)
 end
 
 precompile(_main, (Module, Arguments))
