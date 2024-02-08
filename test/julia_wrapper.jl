@@ -1,3 +1,3 @@
 using CompilerExplorer
 
-CompilerExplorer.main()
+CompilerExplorer.generate_code()

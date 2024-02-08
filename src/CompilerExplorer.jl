@@ -2,18 +2,23 @@ module CompilerExplorer
 
 using InteractiveUtils
 
-_doc(name) = """Julia wrapper for Compiler Explorer.
-
-Usage:
-  $(name) <input_code> <output_path> [--format=<fmt>] [--debuginfo=<info>] [--optimize=<opt>] [--verbose]
-  $(name) --help
-
-Options:
-  -h --help                Show this screen.
+const _ARGS = "<input_code> <output_path> [--format=<fmt>] [--debuginfo=<info>] [--optimize=<opt>] [--verbose]"
+const _OPTIONS = """
   --format=<fmt>           Set output format (One of "lowered", "typed", "warntype", "llvm", "native") [default: native]
   --debuginfo=<info>       Controls amount of generated metadata (One of "default", "none") [default: default]
   --optimize={true*|false} Controls whether "llvm" or "typed" output should be optimized or not [default: true]
   --verbose                Prints some process info
+"""
+
+_doc(name) = """Julia wrapper for Compiler Explorer.
+
+Usage:
+  $(name) $(_ARGS)
+  $(name) --help
+
+Options:
+  -h --help                Show this screen.
+$(_OPTIONS)
 """
 
 struct Arguments
@@ -83,7 +88,7 @@ function _parse_arguments(ARGS)
     return Arguments(format, debuginfo, optimize, verbose, input_file, output_path)
 end
 
-function _main(m::Module, args::Arguments; verbose_io::IO=stdout)
+function _generate_code(m::Module, args::Arguments; verbose_io::IO=stdout)
     # Include user code into module
     Base.include(m, args.input_file)
 
@@ -161,10 +166,20 @@ function _main(m::Module, args::Arguments; verbose_io::IO=stdout)
     end
 end
 
-function main()
-    _main(Module(:Godbolt), _parse_arguments(ARGS))
+"""
+    generate_code()
+
+This function is supposed to be called in a script, which takes the following arguments
+
+    $(_ARGS)
+
+with the following meanings:
+$("* " * join(replace.(split(CompilerExplorer._OPTIONS, '\n'), r"(^ +)(--\S+)" => s"\1`\2`"), "\n* ", ""))
+"""
+function generate_code()
+    _generate_code(Module(:Godbolt), _parse_arguments(ARGS))
 end
 
-precompile(_main, (Module, Arguments))
+precompile(_generate_code, (Module, Arguments))
 
 end

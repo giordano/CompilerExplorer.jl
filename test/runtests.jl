@@ -1,4 +1,4 @@
-using CompilerExplorer: _main, Arguments
+using CompilerExplorer: _generate_code, Arguments
 using Test
 
 @testset "CompilerExplorer" begin
@@ -7,7 +7,7 @@ using Test
             input_file = joinpath(@__DIR__, "input-$(input).jl")
             output_file = tempname(dir)
             args = Arguments(format, debuginfo, optimize, verbose, input_file, output_file)
-            _main(Module(), args; verbose_io=devnull)
+            _generate_code(Module(), args; verbose_io=devnull)
             first_line = readlines(output_file)[1]
             expected = if input == "axpy"
                 r"^<\d+ \d+ axpy! Vector\{Float32\}, Float32, Vector\{Float32\}>$"
