@@ -3,6 +3,8 @@ module CompilerExplorer
 using InteractiveUtils
 
 const _ARGS = "<input_code> <output_path> [--format=<fmt>] [--debuginfo=<info>] [--optimize=<opt>] [--verbose]"
+# Note: `_OPTIONS` is used in the docstring of `generate_code`, so if you change the value
+# of the constant make sure the docstring is still generated correctly.
 const _OPTIONS = """
   --format=<fmt>           Set output format (One of "lowered", "typed", "warntype", "llvm", "native") [default: native]
   --debuginfo=<info>       Controls amount of generated metadata (One of "default", "none") [default: default]
