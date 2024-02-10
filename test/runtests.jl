@@ -2,8 +2,12 @@ using CompilerExplorer: _generate_code, Arguments
 using Test
 
 @testset "CompilerExplorer" begin
-    @testset for format in ("lowered", "typed", "warntype", "llvm", "native"), debuginfo in (:default, :none), optimize in (true, false), verbose in (true, false), input in ("axpy", "square")
-        mktempdir() do dir
+    mktempdir() do dir
+        @testset for format in ("lowered", "typed", "warntype", "llvm", "native"),
+                     debuginfo in (:default, :none),
+                     optimize in (true, false),
+                     verbose in (true, false),
+                     input in ("axpy", "square")
             input_file = joinpath(@__DIR__, "input-$(input).jl")
             output_file = tempname(dir)
             args = Arguments(format, debuginfo, optimize, verbose, input_file, output_file)
