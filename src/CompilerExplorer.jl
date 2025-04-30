@@ -160,7 +160,7 @@ function _generate_code(m::Module, args::Arguments; verbose_io::IO=stdout)
                     InteractiveUtils.code_native(io, me_fun, me_types; debuginfo=args.debuginfo)
                 end
             elseif args.format == "warntype"
-                InteractiveUtils.code_warntype(io, me_fun, me_types; debuginfo=args.debuginfo)
+                Base.invokelatest(InteractiveUtils.code_warntype, io, me_fun, me_types; debuginfo=args.debuginfo)
             end
             # Add extra newline, because some of the above tools don't add a final newline,
             # and when we have multiple functions to be shown, they'd be mixed up.
