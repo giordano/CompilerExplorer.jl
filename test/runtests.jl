@@ -14,6 +14,7 @@ using Test
             _generate_code(Module(), args; verbose_io=devnull)
             output_file = tempname(dir)
             @test success(`$(Base.julia_cmd()) --startup-file=no $(joinpath(@__DIR__, "julia_wrapper.jl")) $(input_file) $(output_file)`)
+            @test !isempty(readchomp(output_file))
         end
     end
 end
